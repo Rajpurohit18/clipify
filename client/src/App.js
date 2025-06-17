@@ -14,6 +14,7 @@ function App() {
   const [isBatchProcessing, setIsBatchProcessing] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const processVideo = useCallback(async (formData) => {
     try {
@@ -43,15 +44,21 @@ function App() {
     } else {
       const file = acceptedFiles[0];
       if (file) {
-        const formData = new FormData();
-        formData.append('video', file);
-        formData.append('clipDuration', clipDuration);
-        formData.append('isAudioOnly', isAudioOnly);
-        formData.append('audioExtractionMode', audioExtractionMode);
-        processVideo(formData);
+        setSelectedFile(file);
       }
     }
-  }, [isBatchProcessing, clipDuration, isAudioOnly, processVideo, audioExtractionMode]);
+  }, [isBatchProcessing]);
+
+  const handleProcess = useCallback(() => {
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('video', selectedFile);
+      formData.append('clipDuration', clipDuration);
+      formData.append('isAudioOnly', isAudioOnly);
+      formData.append('audioExtractionMode', audioExtractionMode);
+      processVideo(formData);
+    }
+  }, [selectedFile, clipDuration, isAudioOnly, audioExtractionMode, processVideo]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -206,7 +213,22 @@ function App() {
                 >
                   <input {...getInputProps()} />
                   <p>Drag and drop files here, or click to select files</p>
+                  {selectedFile && (
+                    <p className="mt-2 text-sm text-gray-600">
+                      Selected file: {selectedFile.name}
+                    </p>
+                  )}
                 </div>
+
+                {/* Process Button */}
+                {selectedFile && !isProcessing && (
+                  <button
+                    onClick={handleProcess}
+                    className="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    Process Video
+                  </button>
+                )}
 
                 {/* Progress Bar */}
                 {isProcessing && (
