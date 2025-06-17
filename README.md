@@ -46,6 +46,30 @@ clipify/
 
 ## ⚙️ Setup & Run Instructions
 
+### 0. FFmpeg Installation (Windows)
+For the video processing to work, FFmpeg must be installed and accessible via your system's PATH. Follow these steps to install it on Windows:
+
+1.  **Download FFmpeg:**
+    *   Go to the official FFmpeg builds page: [https://www.gyan.dev/ffmpeg/builds/](https://www.gyan.dev/ffmpeg/builds/)
+    *   Download the latest `ffmpeg-release-essentials.zip` (or similar latest build).
+
+2.  **Extract and Place FFmpeg:**
+    *   Extract the downloaded `.zip` file.
+    *   Create a new folder named `ffmpeg` directly under your `C:` drive (e.g., `C:\ffmpeg`).
+    *   Copy the contents of the `bin` folder (from the extracted FFmpeg zip, it should contain `ffmpeg.exe`, `ffprobe.exe`, `ffplay.exe`) into `C:\ffmpeg`.
+
+3.  **Add FFmpeg to System PATH:**
+    *   Search for "Environment Variables" in the Windows Start menu and select "Edit the system environment variables."
+    *   In the System Properties window, click the "Environment Variables..." button.
+    *   Under the "System variables" section, find and select the `Path` variable, then click "Edit...".
+    *   Click "New" and add `C:\ffmpeg` to the list.
+    *   Click "OK" on all open windows to save the changes.
+
+4.  **Verify Installation:**
+    *   Open a **new** Command Prompt or PowerShell window (it must be a new one for changes to take effect).
+    *   Type `ffmpeg -version` and press Enter.
+    *   You should see FFmpeg version information. If you see `'ffmpeg' is not recognized...`, double-check the previous steps.
+
 ### 1. Clone the repository
 ```bash
 git clone <repo-url> && cd clipify
