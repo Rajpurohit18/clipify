@@ -1,20 +1,20 @@
 # Clipify
 
-Clipify is a full-stack web application that allows users to upload long-form videos (YouTube, Twitch, etc.) and automatically generates short, shareable reels using advanced AI techniques like speaker detection, speech transcription, and keyword-based clipping.
+Clipify is a full-stack web application that allows users to upload video files and extract audio or create video clips based on a specified duration. It provides a simple interface for generating both full audio extractions and segmented audio/video clips.
 
 ---
 
 ## 🎯 Features
 
-- Upload long-form videos and generate short reels automatically
-- Speaker detection and speech transcription (OpenAI Whisper)
-- Keyword-based excitement and intensity detection
-- Automatic video clipping and subtitle overlay
-- Watermark and trending audio support (optional)
-- Clean, modern UI (React + Tailwind CSS)
-- Backend API (Node.js + Express)
-- Video processing (Python + FFmpeg)
-- Local file storage with automatic cleanup
+- Upload video files (.mp4, .avi, .mov, etc.) or audio files (.mp3, .wav, .ogg, etc.).
+- **Audio Extraction Modes:** Choose between extracting the full audio from a video or generating multiple clipped audio segments.
+- **Video Clipping:** Generate multiple video clips from an uploaded video based on a specified duration.
+- Real-time upload progress indicator during file processing.
+- Real-time download progress indicator when zipping and downloading all generated clips.
+- Clean, modern UI built with React and Tailwind CSS.
+- Robust backend API using Node.js and Express.
+- Efficient video and audio processing powered by Python and FFmpeg.
+- Local file storage with automatic cleanup of old processed files.
 
 ---
 
@@ -22,9 +22,8 @@ Clipify is a full-stack web application that allows users to upload long-form vi
 
 - **Frontend:** React, Tailwind CSS
 - **Backend:** Node.js, Express
-- **Processor:** Python, FFmpeg, OpenAI Whisper
+- **Processor:** Python, FFmpeg, yt-dlp
 - **File Storage:** Local (static folders)
-- **Containerization:** Docker, docker-compose
 
 ---
 
@@ -75,10 +74,7 @@ For the video processing to work, FFmpeg must be installed and accessible via yo
 git clone <repo-url> && cd clipify
 ```
 
-### 2. Environment Variables
-- Copy `.env.example` to `.env` in `server/` and fill in required values.
-
-### 3. Install Dependencies
+### 2. Install Dependencies
 - **Frontend:**
   ```bash
   cd client && npm install
@@ -92,7 +88,7 @@ git clone <repo-url> && cd clipify
   cd ../processor && pip install -r requirements.txt
   ```
 
-### 4. Run Locally
+### 3. Run Locally
 - **Frontend:**
   ```bash
   cd client && npm start
@@ -104,7 +100,7 @@ git clone <repo-url> && cd clipify
 - **Processor:**
   (Runs automatically when called by backend)
 
-### 5. Docker (Optional)
+### 4. Docker (Optional)
 ```bash
 docker-compose up --build
 ```
@@ -112,10 +108,15 @@ docker-compose up --build
 ---
 
 ## 🚀 Usage
-1. Open the frontend in your browser.
-2. Upload a video file (max 500MB, .mp4).
-3. Wait for processing (AI will transcribe, analyze, and clip).
-4. Download or preview your short reel with subtitles and watermark.
+1.  Open the frontend in your browser (`http://localhost:3000`).
+2.  Drag and drop your video file into the designated area.
+3.  Choose your processing options:
+    *   **Clip Duration:** Specify the length of individual video/audio clips (in seconds). This option is disabled when "Full Video Audio" is selected.
+    *   **Audio Only:** Check this to extract audio instead of video.
+        *   **Clipped Audio:** Generates multiple audio clips based on the `Clip Duration`.
+        *   **Full Video Audio:** Extracts the entire audio from the video as a single MP3 file.
+4.  Click "Process" to start the upload and processing. Monitor the progress bar.
+5.  Once processing is complete, your generated clips will appear below. You can download individual clips or click "Download All" to get a zip archive of all clips from the latest process.
 
 ---
 
