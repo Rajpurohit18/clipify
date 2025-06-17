@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  server:
+    build: ./server
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./uploads:/app/uploads
+      - ./output:/app/output
+      - ./processor:/app/processor
+    env_file:
+      - ./server/.env
+    depends_on:
+      - processor
+  processor:
+    build: ./processor
+    volumes:
+      - ./uploads:/app/uploads
+      - ./output:/app/output
+    environment:
+      - PYTHONUNBUFFERED=1 
